@@ -1,0 +1,29 @@
+# This is a basic workflow that is manually triggered
+
+name: Encryption Hourly Server Refresher
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  schedule:
+  - cron: "0 * * * *"
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  server-ping:
+    name: performs HTTP server check
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Runs a single command using the runners shell
+    - name: make first request
+      run: |
+          curl -X POST https://ziven.pythonanywhere.com/encrypt \
+               -d "message=first check" \
+               -H "Content-Type: application/x-www-form-urlencoded"
+    - name: make second request
+      run: |
+          curl -X POST https://ziven.pythonanywhere.com/encrypt \
+               -d "message=second check" \
+               -H "Content-Type: application/x-www-form-urlencoded"
